@@ -50,7 +50,7 @@ omarchy theme set "Neon Purple"
 | --- | --- |
 | `colors.toml` | The palette. Everything else Omarchy themes is generated from this. |
 | `claude.json` | Claude Code theme. Hand-written — see note below. |
-| `chromium.theme` | Chromium's `BrowserThemeColor` seed — Chrome's built-in Violet (`#e5d5fc`). |
+| `chromium.theme` | Chromium's `BrowserThemeColor` seed — Chrome's Violet, dark (`#231c2f`). |
 | `icons.theme` | `Yaru-purple`. |
 | `neovim.lua` | Catppuccin Mocha with the full palette overridden. |
 | `vscode.json` | Catppuccin Mocha. |
@@ -73,11 +73,18 @@ this theme:
   template's `blue` (`#6a2bc9`, too dark to read) to `#9350ff`.
 - **`chromium.theme`** — the template seeds it with `background`. Chromium expands
   that seed across its whole tonal palette, so even a near-black purple produced a
-  very purple browser frame. This ships Chrome's own built-in **Violet** seed
-  (`#e5d5fc`, RGB `229,213,252`) instead — the exact value from
-  `kDynamicCustomizeChromeColors` in Chromium's `customize_chrome_colors.cc`, so the
-  browser frame matches the Violet swatch in Customize Chrome and stays in the
-  theme's purple family.
+  very purple browser frame. This ships Chrome's own built-in **Violet**, in its
+  dark rendering: `#231c2f`, RGB `35,28,47`.
+
+  Chrome's Violet swatch is seeded with `#e5d5fc` — the `IDS_NTP_COLORS_VIOLET`
+  entry in `kDynamicCustomizeChromeColors`
+  (`chrome/browser/ui/webui/cr_components/theme_color_picker/customize_chrome_colors.cc`),
+  variant `kTonalSpot`. Seeding with `#231c2f` gives a byte-identical result,
+  because `SchemeTonalSpot` keeps only the seed's **hue** and fixes every
+  palette's chroma itself — both hexes sit at hue ≈ 303 in HCT. The dark hex is
+  shipped because it's the colour you actually see: the frame resolves through
+  `kColorFrameActive` → `kColorSysHeader` → `kColorRefSecondary12` (dark, themed)
+  → `#231c2f`.
 
 `omarchy-theme-set-templates` skips any file a theme already provides, so both
 survive `omarchy update`.
@@ -223,3 +230,23 @@ ghostty `background-opacity = 0.85`.
 ## Licence
 
 Theme files are MIT. The wallpaper is not mine to license — see the caveat above.
+
+### `extras/chromium/set-dark-mode.sh`
+
+Pins Chromium to **Dark** mode, so the Violet theme renders as the dark frame
+rather than following the system and flipping to `#eadef7` in light mode.
+
+Omarchy writes `{"BrowserThemeColor": ..., "BrowserColorScheme": "device"}` into
+the managed-policy dir, but **`BrowserColorScheme` is not a Chrome policy** —
+`BrowserThemeColor` is the only theme policy Chromium defines, so the key is
+silently ignored. The real switch is the profile pref
+`browser.theme.color_scheme2` (`kBrowserColorScheme`), with
+`ThemeService::BrowserColorScheme` values `kSystem=0`, `kLight=1`, `kDark=2`.
+
+```bash
+# Chromium rewrites Preferences on exit, so close it completely first.
+extras/chromium/set-dark-mode.sh
+```
+
+It backs up each `Preferences` it touches, is idempotent, and refuses to run
+while Chromium is up.
