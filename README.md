@@ -50,7 +50,7 @@ omarchy theme set "Neon Purple"
 | --- | --- |
 | `colors.toml` | The palette. Everything else Omarchy themes is generated from this. |
 | `claude.json` | Claude Code theme. Hand-written — see note below. |
-| `chromium.theme` | Chromium's `BrowserThemeColor` seed. |
+| `chromium.theme` | Chromium's `BrowserThemeColor` seed — Chrome's built-in Violet (`#e5d5fc`). |
 | `icons.theme` | `Yaru-purple`. |
 | `neovim.lua` | Catppuccin Mocha with the full palette overridden. |
 | `vscode.json` | Catppuccin Mocha. |
@@ -73,7 +73,11 @@ this theme:
   template's `blue` (`#6a2bc9`, too dark to read) to `#9350ff`.
 - **`chromium.theme`** — the template seeds it with `background`. Chromium expands
   that seed across its whole tonal palette, so even a near-black purple produced a
-  very purple browser frame. This ships a deliberate dark purple (`#2b1642`) instead.
+  very purple browser frame. This ships Chrome's own built-in **Violet** seed
+  (`#e5d5fc`, RGB `229,213,252`) instead — the exact value from
+  `kDynamicCustomizeChromeColors` in Chromium's `customize_chrome_colors.cc`, so the
+  browser frame matches the Violet swatch in Customize Chrome and stays in the
+  theme's purple family.
 
 `omarchy-theme-set-templates` skips any file a theme already provides, so both
 survive `omarchy update`.
