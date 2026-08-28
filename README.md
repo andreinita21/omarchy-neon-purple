@@ -4,7 +4,7 @@ An [Omarchy](https://omarchy.org/) theme built from a neon Pusheen wallpaper —
 surfaces with a violet glow on top. Every ANSI slot lives in the purple family;
 nothing green, red, or blue survives.
 
-![Wallpaper](backgrounds/1-neon-purple-pusheen.png)
+![Neon Purple theme](preview.png)
 
 ## Palette
 
@@ -21,6 +21,13 @@ instead**: the eight colours step from deep violet `#6a2bc9` up to pale lilac
 `#d7b6ff`. Errors stay the most saturated colour in the set (`#c13ae0`), so
 `git diff` and compiler output are still scannable — you read them as
 light-vs-dark purple rather than red-vs-green.
+
+## Wallpaper
+
+The theme ships the wallpaper it was sampled from, and Omarchy sets it when the
+theme is applied.
+
+![Wallpaper](backgrounds/1-neon-purple-pusheen.png)
 
 ## Install
 
@@ -48,6 +55,7 @@ omarchy theme set "Neon Purple"
 | `neovim.lua` | Catppuccin Mocha with the full palette overridden. |
 | `vscode.json` | Catppuccin Mocha. |
 | `backgrounds/` | The wallpaper. |
+| `preview.png` | Thumbnail shown in `omarchy theme` picker. |
 
 Alacritty, foot, kitty, ghostty, btop, helix, obsidian, the Omarchy shell and the
 keyboard RGB are all generated from `colors.toml` by Omarchy's own templates, so
